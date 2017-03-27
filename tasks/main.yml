@@ -1,0 +1,4 @@
+---
+# tasks file for telegraf
+- include: "{{ ansible_os_family | lower }}.yml"
+- include: configuration.yml

@@ -1,0 +1,36 @@
+# {{ ansible_managed }}
+[global_tags]
+{% if telegraf.tags is defined and telegraf.tags != None %}
+{% for key, value in telegraf.tags.iteritems() %}
+  {{ key }} = "{{ value }}"
+{% endfor %}
+{% endif %}
+
+[agent]
+  interval = "{{ telegraf.interval}}"
+  round_interval = {{ telegraf.round_interval }}
+  metric_batch_size = {{ telegraf.metric_batch_size }}
+  metric_buffer_limit = {{ telegraf.metric_buffer_limit }}
+  collection_jitter = "{{ telegraf.collection_jitter }}"
+  flush_interval = "{{ telegraf.flush_interval }}"
+  flush_jitter = "{{ telegraf.flush_jitter }}"
+  precision = "{{ telegraf.precision }}"
+  debug = {{ telegraf.debug }}
+  quiet = {{ telegraf.quiet }}
+  logfile = "{{ telegraf.logfile }}"
+  hostname = "{{ telegraf.hostname }}"
+  omit_hostname = {{ telegraf.omit_hostname }}
+
+{% for output, options in telegraf.outputs.iteritems() %}
+[[outputs.{{ output }}]]
+{% for key, value in options.iteritems() %}
+  {{ key }} = {{ value }}
+{% endfor %}
+{% endfor %}
+
+{% for plugin, options in telegraf.plugins.iteritems() %}
+[[inputs.{{ plugin }}]]
+{% for key, value in options.iteritems() %}
+  {{ key }} = {{ value }}
+{% endfor %}
+{% endfor %}
