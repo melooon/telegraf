@@ -1,0 +1,8 @@
+- name: '[Install] - Add Influxdb repository key'
+  apt_key:
+    url: "https://repos.influxdata.com/influxdb.key"
+
+- name: '[Install] - Install package telegraf'
+  apt:
+    name: telegraf
+    update_cache: yes
